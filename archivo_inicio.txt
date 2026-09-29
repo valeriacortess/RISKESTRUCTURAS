@@ -1,0 +1,46 @@
+3
+ana azul
+bea rojo
+cel verde
+Alaska azul 22
+Alberta rojo 1
+AmericaCentral azul 1
+EstadosUnidosOrientales azul 1
+Groenlandia azul 1
+TerritorioNoroccidental rojo 1
+Ontario azul 1
+Quebec azul 1
+EstadosUnidosOccidentales azul 1
+Argentina azul 1
+Brasil azul 1
+Peru azul 1
+Venezuela azul 1
+GranBretana azul 1
+Islandia azul 1
+EuropaDelNorte azul 1
+Escandinavia rojo 1
+EuropaDelSur rojo 1
+Ucrania rojo 1
+EuropaOccidental rojo 1
+Congo rojo 1
+AfricaOriental rojo 1
+Egipto rojo 1
+Madagascar rojo 1
+AfricaDelNorte rojo 1
+AfricaDelSur rojo 1
+Afganistan rojo 1
+China rojo 22
+India verde 22
+Irkutsk verde 1
+Japon verde 1
+Kamchatka verde 1
+MedioOriente verde 1
+Mongolia verde 1
+Siam verde 1
+Siberia verde 1
+Ural verde 1
+Yakutsk verde 1
+AustraliaOriental verde 1
+Indonesia verde 1
+NuevaGuinea verde 1
+AustraliaOccidental verde 1
