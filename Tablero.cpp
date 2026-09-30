@@ -250,9 +250,9 @@ bool Tablero::inicializarJuego(string archivo) {
 
    // Cada jugador recibe sus territorios conquistados
     for (itTerritorio = territorios.begin(); itTerritorio != territorios.end(); itTerritorio++) {
-        Jugador* dueño = getJugadorPorColor((*itTerritorio).getColorOcupado());
-        if (dueño != nullptr) {
-            (*dueño).agregarTerritorioConquista((*itTerritorio).getCodigo());
+        Jugador* dueno = getJugadorPorColor((*itTerritorio).getColorOcupado());
+        if (dueno != nullptr) {
+            (*dueno).agregarTerritorioConquista((*itTerritorio).getCodigo());
         }
     }
 
