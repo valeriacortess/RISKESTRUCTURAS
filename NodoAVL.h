@@ -25,7 +25,7 @@ class NodoAVL{
         NodoAVL<T>* rotarDer();
         NodoAVL<T>* rotarIzq();
         NodoAVL<T>* rotarIzqDer();
-        NodoAVL<T>* rotarDerIsq();
+        NodoAVL<T>* rotarDerIzq();
         void inOrden();
         int tamano();
         void preOrden();
