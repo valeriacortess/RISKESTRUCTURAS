@@ -10,6 +10,9 @@ protected:
 
     NodoAVL<T>* raiz;
     NodoAVL<T>* balancear(NodoAVL<T>* nodo);
+    NodoAVL<T>* insertarRecursivo(NodoAVL<T>* nodo, T val, bool& insertado);
+    NodoAVL<T>* eliminarRecursivo(NodoAVL<T>* nodo, T val, bool& eliminado);
+
 
 public:
     ArbolAVL();
