@@ -425,6 +425,17 @@ void fortificar(string nombre_jugador){
         cout << "--------------------------------------------------\n" << endl;
         return;
     }
+    // Si solo posee 1 territorio, muestra el mensaje, avanza el turno y termina la función
+    if (jugador->contarTerritorio() <= 1) {
+        cout << "No se puede fortificar: solo posee 1 territorio." << endl;
+        
+        // Reinicia las marcas del turno y avanza al siguiente jugador
+        jugador->reiniciarEstadoTurno();
+        tablero.avanzarTurno();
+
+        cout << "--------------------------------------------------\n" << endl;
+        return;
+    }
 
     string origen, destino;
     int unidades;
