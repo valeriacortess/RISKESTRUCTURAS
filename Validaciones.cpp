@@ -99,12 +99,19 @@ string aMinusculas(string texto) {
     return texto;
 }       
 
-// Verifica que el nombre termine exactamente en ".txt"
-bool esArchivoTxt(string nombre_archivo) {
-    string extension = ".txt";
-    if (nombre_archivo.length() < extension.length()) {
-        return false;
-    }
-    string finalNombre = nombre_archivo.substr(nombre_archivo.length() - extension.length());
-    return finalNombre == extension;
+// Verifica que el nombre termine exactamente en ".txt" o ".bin" para considerarlo valido para inicializar el juego.
+bool esArchivoTxt(const std::string& nombre) {
+    if (nombre.size() < 4) return false;
+    std::string extension = nombre.substr(nombre.size() - 4);
+    return extension == ".txt";
+}
+
+bool esArchivoBin(const std::string& nombre) {
+    if (nombre.size() < 4) return false;
+    std::string extension = nombre.substr(nombre.size() - 4);
+    return extension == ".bin";
+}
+
+bool esArchivoValidoParaInicializar(const std::string& nombre) {
+    return esArchivoTxt(nombre) || esArchivoBin(nombre);
 }
