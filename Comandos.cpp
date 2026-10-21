@@ -25,11 +25,120 @@ vector<string> tokenizar(const string& linea){
     return tokens;
 } 
 
-bool inicializar (string archivo_inicial){
+bool inicializar(string archivo_inicial) { // Función modificada para archivos .bin y .txt
     cout << "\n--------------------------------------------------" << endl;
-    bool resultado = tablero.inicializarJuego(archivo_inicial);
-    cout << "--------------------------------------------------\n" << endl;
-    return resultado;
+
+    // Si el juego ya está inicializado
+    if (tablero.estaInicializado()) {
+        cout << "(Juego en curso) El juego ya ha sido inicializado." << endl;
+        cout << "--------------------------------------------------\n" << endl;
+        return false;
+    }
+
+    // CASO 1: Archivo .bin (comprimido)
+    if (esArchivoBin(archivo_inicial)) {
+        std::ifstream archivo(archivo_inicial.c_str(), std::ios::binary);
+        if (!archivo.is_open()) {
+            cout << "(Archivo erróneo) " << archivo_inicial << " no se encuentra o no puede leerse." << endl;
+            cout << "--------------------------------------------------\n" << endl;
+            return false;
+        }
+
+        // Leer n (2 bytes)
+        unsigned short n = 0;
+        archivo.read(reinterpret_cast<char*>(&n), sizeof(n));
+        if (!archivo || n == 0) {
+            cout << "(Archivo vacío) " << archivo_inicial << " no contiene información." << endl;
+            cout << "--------------------------------------------------\n" << endl;
+            return false;
+        }
+
+        // Leer las n parejas (carácter + frecuencia)
+        std::map<char, unsigned long> frecuencias;
+        for (unsigned short i = 0; i < n; ++i) {
+            unsigned char c = 0;
+            unsigned long long f = 0;
+
+            archivo.read(reinterpret_cast<char*>(&c), 1);
+            archivo.read(reinterpret_cast<char*>(&f), 8);
+
+            if (!archivo) {
+                cout << "(Archivo sin formato) " << archivo_inicial << " no contiene información en el formato esperado." << endl;
+                cout << "--------------------------------------------------\n" << endl;
+                return false;
+            }
+            frecuencias[static_cast<char>(c)] = static_cast<unsigned long>(f);
+        }
+
+        // Leer w (8 bytes) - longitud original
+        unsigned long long w = 0;
+        archivo.read(reinterpret_cast<char*>(&w), 8);
+        if (!archivo || w == 0) {
+            cout << "(Archivo sin formato) " << archivo_inicial << " no contiene información en el formato esperado." << endl;
+            cout << "--------------------------------------------------\n" << endl;
+            return false;
+        }
+
+        // Leer el resto del archivo (la secuencia de bits empaquetada)
+        std::string bits = "";
+        char byte;
+        while (archivo.read(&byte, 1)) {
+            unsigned char ubyte = static_cast<unsigned char>(byte);
+            for (int j = 7; j >= 0; --j) {
+                if (ubyte & (1 << j)) {
+                    bits += "1";
+                } else {
+                    bits += "0";
+                }
+            }
+        }
+        archivo.close();
+
+        // Reconstruir el árbol de Huffman y decodificar
+        ArbolHuffman<char> arbol;
+        arbol.construir(frecuencias);
+        std::string contenido = arbol.decodificar(bits);
+
+        // Recortar al tamaño original
+        if (contenido.size() > static_cast<size_t>(w)) {
+            contenido = contenido.substr(0, static_cast<size_t>(w));
+        }
+
+        if (contenido.empty()) {
+            cout << "(Archivo vacío) " << archivo_inicial << " no contiene información." << endl;
+            cout << "--------------------------------------------------\n" << endl;
+            return false;
+        }
+
+        // Crear un archivo temporal con el texto decodificado
+        std::string archivoTemporal = "temp_partida_decodificada.txt";
+        std::ofstream temp(archivoTemporal.c_str());
+        if (!temp.is_open()) {
+            cout << "(Error al codificar y/o guardar) No se pudo crear archivo temporal." << endl;
+            cout << "--------------------------------------------------\n" << endl;
+            return false;
+        }
+        temp << contenido;
+        temp.close();
+
+        bool resultado = tablero.inicializarJuego(archivoTemporal, false);
+
+        // Borrar el archivo temporal
+        std::remove(archivoTemporal.c_str());
+
+        cout << "--------------------------------------------------\n" << endl;
+        return resultado;
+    }
+
+    // CASO 2: Archivo .txt normal
+    else {
+        bool resultado = tablero.inicializarJuego(archivo_inicial, true);
+        if (!resultado) {
+            resultado = tablero.inicializarJuego(archivo_inicial, false);
+        }
+        cout << "--------------------------------------------------\n" << endl;
+        return resultado;
+    }
 }
 
 void obtener_unidades (string nombre_jugador){
@@ -358,22 +467,134 @@ void estado_juego(){
     cout << "--------------------------------------------------\n" << endl;
 }
 
-void guardar (string nombre_archivo){
-    cout << endl;
-    cout << "comandos aun no implementados !" << endl;
-    cout << endl;
-    cout << "Esta partida no ha sido inicializada correctamente." << endl;
-    cout << "La partida ha sido guardada correctamente." << endl;
-    cout << "La partida no ha sido guardada correctamente." << endl;
+// Funcion auxiliar para guardar la partida - genera el texto plano de la partida en el mismo formato del archivo de inicio
+std::string generarTextoPartida() {
+    std::stringstream ss;
+
+    // Número de jugadores
+    std::vector<Jugador> jugadores = tablero.getJugadores();
+    ss << jugadores.size() << "\n";
+
+    // Nombre y color de cada jugador
+    std::vector<Jugador>::const_iterator itJug;
+    for (itJug = jugadores.begin(); itJug != jugadores.end(); ++itJug) {
+        ss << itJug->getNombre() << " " << itJug->getColor() << "\n";
+    }
+
+    // Territorios: Codigo, color, unidades
+    std::vector<Territorio> territorios = tablero.getTerritorios();
+    std::vector<Territorio>::const_iterator itTer;
+    for (itTer = territorios.begin(); itTer != territorios.end(); ++itTer) {
+        ss << itTer->getCodigo() << " " 
+           << itTer->getColorOcupado() << " " 
+           << itTer->getUnidades() << "\n";
+    }
+
+    return ss.str();
 }
 
-void guardar_comprimido (string nombre_archivo){
-    cout << endl;
-    cout << "comandos aun no implementados !" << endl;
-    cout << endl;
-    cout << "Esta partida no ha sido inicializada correctamente." << endl;
-    cout << "La partida ha sido codificada y guardada correctamente." << endl;
-    cout << "La partida no ha sido codificada ni guardada correctamente." << endl;
+void guardar(string nombre_archivo) {
+    cout << "\n--------------------------------------------------" << endl;
+
+    if (!tablero.estaInicializado()) {
+        cout << "(Juego no inicializado) Esta partida no ha sido inicializada correctamente." << endl;
+        cout << "--------------------------------------------------\n" << endl;
+        return;
+    }
+
+    std::string texto = generarTextoPartida();
+
+    std::ofstream archivo(nombre_archivo.c_str());
+    if (!archivo.is_open()) {
+        cout << "(Error al guardar) La partida no ha sido guardada correctamente." << endl;
+        cout << "--------------------------------------------------\n" << endl;
+        return;
+    }
+
+    archivo << texto;
+    archivo.close();
+
+    cout << "(Comando correcto) La partida ha sido guardada correctamente." << endl;
+    cout << "--------------------------------------------------\n" << endl;
+}
+
+void guardar_comprimido(string nombre_archivo) {
+    cout << "\n--------------------------------------------------" << endl;
+
+    if (!tablero.estaInicializado()) {
+        cout << "(Juego no inicializado) Esta partida no ha sido inicializada correctamente." << endl;
+        cout << "--------------------------------------------------\n" << endl;
+        return;
+    }
+
+    // Generar el texto de la partida
+    std::string texto = generarTextoPartida();
+    if (texto.empty()) {
+        cout << "(Error al codificar y/o guardar) La partida no ha sido codificada ni guardada correctamente." << endl;
+        cout << "--------------------------------------------------\n" << endl;
+        return;
+    }
+
+    // Contar frecuencias de cada carácter
+    std::map<char, unsigned long> frecuencias;
+    for (size_t i = 0; i < texto.size(); ++i) {
+        frecuencias[texto[i]]++;
+    }
+
+    // Construir el árbol de Huffman
+    ArbolHuffman<char> arbol;
+    arbol.construir(frecuencias);
+
+    // Codificar el texto a una cadena de bits
+    std::string bits = arbol.codificar(texto);
+
+    // Abrir archivo en modo binario
+    std::ofstream archivo(nombre_archivo.c_str(), std::ios::binary);
+    if (!archivo.is_open()) {
+        cout << "(Error al codificar y/o guardar) La partida no ha sido codificada ni guardada correctamente." << endl;
+        cout << "--------------------------------------------------\n" << endl;
+        return;
+    }
+
+    //Formato del archivo .bin según el enunciado
+    // n (2 bytes) - cantidad de caracteres distintos
+    unsigned short n = static_cast<unsigned short>(frecuencias.size());
+    archivo.write(reinterpret_cast<const char*>(&n), sizeof(n));
+
+    // Por cada carácter: ci (1 byte) + fi (8 bytes)
+    std::map<char, unsigned long>::iterator it;
+    for (it = frecuencias.begin(); it != frecuencias.end(); ++it) {
+        unsigned char c = static_cast<unsigned char>(it->first);
+        unsigned long long f = static_cast<unsigned long long>(it->second);
+
+        archivo.write(reinterpret_cast<const char*>(&c), 1);
+        archivo.write(reinterpret_cast<const char*>(&f), 8);
+    }
+
+    // w (8 bytes) - longitud original del texto
+    unsigned long long w = static_cast<unsigned long long>(texto.size());
+    archivo.write(reinterpret_cast<const char*>(&w), 8);
+
+    // binary_code - empaquetar los bits en bytes
+    // Si la cantidad de bits no es múltiplo de 8, se rellena con ceros
+    while (bits.size() % 8 != 0) {
+        bits += "0";
+    }
+
+    for (size_t i = 0; i < bits.size(); i += 8) {
+        unsigned char byte = 0;
+        for (int j = 0; j < 8; ++j) {
+            if (bits[i + j] == '1') {
+                byte |= (1 << (7 - j));
+            }
+        }
+        archivo.write(reinterpret_cast<const char*>(&byte), 1);
+    }
+
+    archivo.close();
+
+    cout << "(Comando correcto) La partida ha sido codificada y guardada correctamente." << endl;
+    cout << "--------------------------------------------------\n" << endl;
 }
 
 void costo_conquista (string nombre_jugador, string territorio){
