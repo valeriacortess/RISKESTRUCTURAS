@@ -56,8 +56,8 @@ int main()
             else if (!esNombreArchivoValido(tokens[1])) {
                 cout << "Error: el nombre de archivo no tiene un formato valido" << endl;
             }
-            else if (!esArchivoTxt(tokens[1])) {
-                cout << "Error: el archivo debe tener extension .txt" << endl;
+            else if (!esArchivoValidoParaInicializar(tokens[1])) {
+                cout << "Error: el archivo debe tener extension .txt o .bin" << endl;
             }
             else {
                 bool exito = inicializar(tokens[1]);
@@ -129,8 +129,8 @@ int main()
             else if (!esNombreArchivoValido(tokens[1])) {
                 cout << "Error: el nombre de archivo no tiene un formato valido" << endl;
             }
-            else if (!esArchivoTxt(tokens[1])) {
-                cout << "Error: el archivo debe tener extension .txt" << endl;
+            else if (!esArchivoValidoParaInicializar(tokens[1])) {
+                cout << "Error: el archivo debe tener extension .txt o .bin" << endl;
             }
             else { 
                 guardar(tokens[1]);
