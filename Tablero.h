@@ -26,7 +26,7 @@ class Tablero {
 
     Tablero (); 
     vector<Continente> getContinentes() const; 
-    bool inicializarJuego(string archivo);
+    bool inicializarJuego(const std::string& archivo, bool validarUnidadesIniciales = true);
     bool estaInicializado() const;
     bool juegoFinalizado() const;
     vector <Territorio> getTerritorios()const;
