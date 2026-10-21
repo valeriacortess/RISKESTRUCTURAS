@@ -12,6 +12,7 @@ void obtener_unidades (string nombre_jugador);
 void atacar (string nombre_jugador);
 void fortificar(string nombre_jugador);
 void estado_juego ();
+std::string generarTextoPartida();
 void guardar (string nombre_archivo);
 void guardar_comprimido (string nombre_archivo);
 void costo_conquista (string nombre_jugador, string territorio);
