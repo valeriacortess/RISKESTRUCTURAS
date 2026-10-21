@@ -102,7 +102,7 @@ namespace {
 
 } 
 
-bool Tablero::inicializarJuego(string archivo) {
+bool Tablero::inicializarJuego(const std::string& archivo, bool validarUnidadesIniciales) {
 
     
     if (inicializado) {
@@ -186,9 +186,6 @@ bool Tablero::inicializarJuego(string archivo) {
         }
         territoriosTemp.push_back(t);
     }
-
-        
-
 
     //Lectura de la ocupacion de los 42 territorios 
     vector<bool> territorioLeido(territoriosTemp.size(), false);
@@ -297,18 +294,21 @@ for (itTerritorio = territorios.begin(); itTerritorio != territorios.end(); itTe
 }
 
     bool coloresValidos = validaColores(coloresUsados);
-    bool unidadesValidas = validarUnidadesJugador();
+    bool unidadesValidas = true;
     bool territoriosOcupados = usoTerritoriosOcupados();
 
+    // Solo validar unidades iniciales si se indica (partida nueva)
+    if (validarUnidadesIniciales) {
+        unidadesValidas = validarUnidadesJugador();
+    }
+
     if (!coloresValidos || !unidadesValidas || !territoriosOcupados) {
-        
         territorios.clear();
         jugadores.clear();
         continentes.clear();
         cout << archivo << " no contiene información en el formato esperado." << endl;
         return false;
     }
-
     
     turno_actual = 0;
     inicializado = true;
