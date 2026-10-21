@@ -14,5 +14,7 @@ bool esTerritorioValido(string territorio);
 // como la cantidad de parametros recibidos.
 bool esCantidadParametrosValida(const vector<string>& tokens);
 string aMinusculas(string texto);
-bool esArchivoTxt(string nombre_archivo);
+bool esArchivoTxt(const std::string& nombre);
+bool esArchivoBin(const std::string& nombre);
+bool esArchivoValidoParaInicializar(const std::string& nombre); // .txt o .bin
 #endif
