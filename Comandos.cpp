@@ -3,9 +3,13 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <cstdio>
+#include <map>
 #include "Comandos.h"
 #include "Tablero.h"
 #include "Turno.h"
+#include "Validaciones.h"
+#include "ArbolHuffman.h"
 using namespace std;
 
 Tablero tablero;
