@@ -49,7 +49,7 @@ int main()
 
         if(comando == "inicializar"){
             if (juegoInicializado) {
-                cout << "El juego ya ha sido inicializado" << endl;
+                cout << "(Juego en curso) El juego ya ha sido inicializado." << endl;
             }
             else if (!esCantidadParametrosValida(tokens)) {
             }
@@ -121,10 +121,7 @@ int main()
         }
 
         else if(comando == "guardar"){
-            if (!juegoInicializado) {
-                cout << "Error: Esta partida no ha sido inicializada correctamente." << endl;
-            }
-            else if (!esCantidadParametrosValida(tokens)) {
+            if (!esCantidadParametrosValida(tokens)) {
             }
             else if (!esNombreArchivoValido(tokens[1])) {
                 cout << "Error: el nombre de archivo no tiene un formato valido" << endl;
@@ -138,13 +135,13 @@ int main()
         }
 
         else if(comando == "guardar_comprimido"){
-            if (!juegoInicializado) {
-                cout << "Error: Esta partida no ha sido inicializada correctamente." << endl;
-            }
-            else if (!esCantidadParametrosValida(tokens)) {
+            if (!esCantidadParametrosValida(tokens)) {
             }
             else if (!esNombreArchivoValido(tokens[1])) {
                 cout << "Error: el nombre de archivo no tiene un formato valido" << endl;
+            }
+            else if (!esArchivoBin(tokens[1])) {
+                cout << "Error: el archivo comprimido debe tener extension .bin" << endl;
             }
             else { 
                 guardar_comprimido(tokens[1]);
