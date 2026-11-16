@@ -40,7 +40,6 @@ class Tablero {
     bool esTurnoDe (string nombre_jugador) const;
     void mostrarEstado() const;
     string getEstadoResumen() const ;
-    bool validaColores(vector<string> colores_usados) const;
     bool validarUnidadesJugador() const;
     bool usoTerritoriosOcupados() const;
     void declararGanador(string nombreGanador);
