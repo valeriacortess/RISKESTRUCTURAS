@@ -33,58 +33,58 @@ namespace {
         vector<DatosTerritorio> datos;
         // Estructura .push_back: (código, nombre, continente, {vecinos}
         // America del Norte
-        datos.push_back({"Alaska", "Alaska", "America del Norte", {"TerritorioNoroccidental", "Alberta", "Kamchatka"}});
-        datos.push_back({"Alberta", "Alberta", "America del Norte", {"Alaska", "TerritorioNoroccidental", "Ontario", "EstadosUnidosOccidentales"}});
-        datos.push_back({"AmericaCentral", "America Central", "America del Norte", {"EstadosUnidosOccidentales", "EstadosUnidosOrientales", "Venezuela"}});
-        datos.push_back({"EstadosUnidosOrientales", "Estados Unidos Orientales", "America del Norte", {"Ontario", "Quebec", "EstadosUnidosOccidentales", "AmericaCentral"}});
-        datos.push_back({"Groenlandia", "Groenlandia", "America del Norte", {"TerritorioNoroccidental", "Ontario", "Quebec", "Islandia"}});
-        datos.push_back({"TerritorioNoroccidental", "Territorio Noroccidental", "America del Norte", {"Alaska", "Alberta", "Ontario", "Groenlandia"}});
-        datos.push_back({"Ontario", "Ontario", "America del Norte", {"Alberta", "TerritorioNoroccidental", "Groenlandia", "Quebec", "EstadosUnidosOrientales", "EstadosUnidosOccidentales"}});
-        datos.push_back({"Quebec", "Quebec", "America del Norte", {"Ontario", "Groenlandia", "EstadosUnidosOrientales"}});
-        datos.push_back({"EstadosUnidosOccidentales", "Estados Unidos Occidentales", "America del Norte", {"Alberta", "Ontario", "EstadosUnidosOrientales", "AmericaCentral"}});
+        datos.push_back({"1.1", "Alaska", "America del Norte", {"1.6", "1.2", "5.6"}});
+        datos.push_back({"1.2", "Alberta", "America del Norte", {"1.1", "1.6", "1.7", "1.9"}});
+        datos.push_back({"1.3", "America Central", "America del Norte", {"1.9", "1.4", "2.4"}});
+        datos.push_back({"1.4", "Estados Unidos Orientales", "America del Norte", {"1.7", "1.8", "1.9", "1.3"}});
+        datos.push_back({"1.5", "Groenlandia", "America del Norte", {"1.6", "1.7", "1.8", "3.2"}});
+        datos.push_back({"1.6", "Territorio Noroccidental", "America del Norte", {"1.1", "1.2", "1.7", "1.5"}});
+        datos.push_back({"1.7", "Ontario", "America del Norte", {"1.2", "1.6", "1.5", "1.8", "1.4", "1.9"}});
+        datos.push_back({"1.8", "Quebec", "America del Norte", {"1.7", "1.5", "1.4"}});
+        datos.push_back({"1.9", "Estados Unidos Occidentales", "America del Norte", {"1.2", "1.7", "1.4", "1.3"}});
 
         // America del Sur
-        datos.push_back({"Argentina", "Argentina", "America del Sur", {"Peru", "Brasil"}});
-        datos.push_back({"Brasil", "Brasil", "America del Sur", {"Venezuela", "Peru", "Argentina", "AfricaDelNorte"}});
-        datos.push_back({"Peru", "Peru", "America del Sur", {"Venezuela", "Brasil", "Argentina"}});
-        datos.push_back({"Venezuela", "Venezuela", "America del Sur", {"AmericaCentral", "Brasil", "Peru"}});
+        datos.push_back({"2.1", "Argentina", "America del Sur", {"2.3", "2.2"}});
+        datos.push_back({"2.2", "Brasil", "America del Sur", {"2.4", "2.3", "2.1", "4.5"}});
+        datos.push_back({"2.3", "Peru", "America del Sur", {"2.4", "2.2", "2.1"}});
+        datos.push_back({"2.4", "Venezuela", "America del Sur", {"1.3", "2.2", "2.3"}});
 
         // Europa
-        datos.push_back({"GranBretana", "Gran Bretana", "Europa", {"Islandia", "Escandinavia", "EuropaDelNorte", "EuropaOccidental"}});
-        datos.push_back({"Islandia", "Islandia", "Europa", {"Groenlandia", "GranBretana", "Escandinavia"}});
-        datos.push_back({"EuropaDelNorte", "Europa del Norte", "Europa", {"GranBretana", "Escandinavia", "Ucrania", "EuropaDelSur", "EuropaOccidental"}});
-        datos.push_back({"Escandinavia", "Escandinavia", "Europa", {"Islandia", "GranBretana", "EuropaDelNorte", "Ucrania"}});
-        datos.push_back({"EuropaDelSur", "Europa del Sur", "Europa", {"EuropaOccidental", "EuropaDelNorte", "Ucrania", "MedioOriente", "Egipto", "AfricaDelNorte"}});
-        datos.push_back({"Ucrania", "Ucrania", "Europa", {"Escandinavia", "EuropaDelNorte", "EuropaDelSur", "Ural", "Afganistan", "MedioOriente"}});
-        datos.push_back({"EuropaOccidental", "Europa Occidental", "Europa", {"GranBretana", "EuropaDelNorte", "EuropaDelSur", "AfricaDelNorte"}});
+        datos.push_back({"3.1", "Gran Bretana", "Europa", {"3.2", "3.4", "3.3", "3.7"}});
+        datos.push_back({"3.2", "Islandia", "Europa", {"1.5", "3.1", "3.4"}});
+        datos.push_back({"3.3", "Europa del Norte", "Europa", {"3.1", "3.4", "3.6", "3.5", "3.7"}});
+        datos.push_back({"3.4", "Escandinavia", "Europa", {"3.2", "3.1", "3.3", "3.6"}});
+        datos.push_back({"3.5", "Europa del Sur", "Europa", {"3.7", "3.3", "3.6", "5.7", "4.3", "4.5"}});
+        datos.push_back({"3.6", "Ucrania", "Europa", {"3.4", "3.3", "3.5", "5.11", "5.1", "5.7"}});
+        datos.push_back({"3.7", "Europa Occidental", "Europa", {"3.1", "3.3", "3.5", "4.5"}});
 
         // Africa
-        datos.push_back({"Congo", "Congo", "Africa", {"AfricaDelNorte", "AfricaOriental", "AfricaDelSur"}});
-        datos.push_back({"AfricaOriental", "Africa Oriental", "Africa", {"Egipto", "AfricaDelNorte", "Congo", "AfricaDelSur", "Madagascar", "MedioOriente"}});
-        datos.push_back({"Egipto", "Egipto", "Africa", {"EuropaDelSur", "AfricaDelNorte", "AfricaOriental", "MedioOriente"}});
-        datos.push_back({"Madagascar", "Madagascar", "Africa", {"AfricaOriental", "AfricaDelSur"}});
-        datos.push_back({"AfricaDelNorte", "Africa del Norte", "Africa", {"Brasil", "EuropaOccidental", "EuropaDelSur", "Egipto", "AfricaOriental", "Congo"}});
-        datos.push_back({"AfricaDelSur", "Africa del Sur", "Africa", {"Congo", "AfricaOriental", "Madagascar"}});
+        datos.push_back({"4.1", "Congo", "Africa", {"4.5", "4.2", "4.6"}});
+        datos.push_back({"4.2", "Africa Oriental", "Africa", {"4.3", "4.5", "4.1", "4.6", "4.4", "5.7"}});
+        datos.push_back({"4.3", "Egipto", "Africa", {"3.5", "4.5", "4.2", "5.7"}});
+        datos.push_back({"4.4", "Madagascar", "Africa", {"4.2", "4.6"}});
+        datos.push_back({"4.5", "Africa del Norte", "Africa", {"2.2", "3.7", "3.5", "4.3", "4.2", "4.1"}});
+        datos.push_back({"4.6", "Africa del Sur", "Africa", {"4.1", "4.2", "4.4"}});
 
         // Asia
-        datos.push_back({"Afganistan", "Afganistan", "Asia", {"Ucrania", "MedioOriente", "India", "China", "Ural"}});
-        datos.push_back({"China", "China", "Asia", {"Afganistan", "Ural", "Siberia", "Mongolia", "Siam", "India"}});
-        datos.push_back({"India", "India", "Asia", {"Afganistan", "MedioOriente", "China", "Siam"}});
-        datos.push_back({"Irkutsk", "Irkutsk", "Asia", {"Siberia", "Yakutsk", "Kamchatka", "Mongolia"}});
-        datos.push_back({"Japon", "Japon", "Asia", {"Kamchatka", "Mongolia"}});
-        datos.push_back({"Kamchatka", "Kamchatka", "Asia", {"Yakutsk", "Irkutsk", "Mongolia", "Japon", "Alaska"}});
-        datos.push_back({"MedioOriente", "Medio Oriente", "Asia", {"Ucrania", "EuropaDelSur", "Egipto", "AfricaOriental", "India", "Afganistan"}});
-        datos.push_back({"Mongolia", "Mongolia", "Asia", {"Siberia", "Irkutsk", "Kamchatka", "Japon", "China"}});
-        datos.push_back({"Siam", "Siam", "Asia", {"India", "China", "Indonesia"}});
-        datos.push_back({"Siberia", "Siberia", "Asia", {"Ural", "China", "Mongolia", "Irkutsk", "Yakutsk"}});
-        datos.push_back({"Ural", "Ural", "Asia", {"Ucrania", "Afganistan", "China", "Siberia"}});
-        datos.push_back({"Yakutsk", "Yakutsk", "Asia", {"Siberia", "Irkutsk", "Kamchatka"}});
+        datos.push_back({"5.1", "Afganistan", "Asia", {"3.6", "5.7", "5.3", "5.2", "5.11"}});
+        datos.push_back({"5.2", "China", "Asia", {"5.1", "5.11", "5.10", "5.8", "5.9", "5.3"}});
+        datos.push_back({"5.3", "India", "Asia", {"5.1", "5.7", "5.2", "5.9"}});
+        datos.push_back({"5.4", "Irkutsk", "Asia", {"5.10", "5.12", "5.6", "5.8"}});
+        datos.push_back({"5.5", "Japon", "Asia", {"5.6", "5.8"}});
+        datos.push_back({"5.6", "Kamchatka", "Asia", {"5.12", "5.4", "5.8", "5.5", "1.1"}});
+        datos.push_back({"5.7", "Medio Oriente", "Asia", {"3.6", "3.5", "4.3", "4.2", "5.3", "5.1"}});
+        datos.push_back({"5.8", "Mongolia", "Asia", {"5.10", "5.4", "5.6", "5.5", "5.2"}});
+        datos.push_back({"5.9", "Siam", "Asia", {"5.3", "5.2", "6.2"}});
+        datos.push_back({"5.10", "Siberia", "Asia", {"5.11", "5.2", "5.8", "5.4", "5.12"}});
+        datos.push_back({"5.11", "Ural", "Asia", {"3.6", "5.1", "5.2", "5.10"}});
+        datos.push_back({"5.12", "Yakutsk", "Asia", {"5.10", "5.4", "5.6"}});
 
         // Australia
-        datos.push_back({"AustraliaOriental", "Australia Oriental", "Australia", {"NuevaGuinea", "AustraliaOccidental"}});
-        datos.push_back({"Indonesia", "Indonesia", "Australia", {"Siam", "NuevaGuinea", "AustraliaOccidental"}});
-        datos.push_back({"NuevaGuinea", "Nueva Guinea", "Australia", {"Indonesia", "AustraliaOriental", "AustraliaOccidental"}});
-        datos.push_back({"AustraliaOccidental", "Australia Occidental", "Australia", {"Indonesia", "NuevaGuinea", "AustraliaOriental"}});
+        datos.push_back({"6.1", "Australia Oriental", "Australia", {"6.3", "6.4"}});
+        datos.push_back({"6.2", "Indonesia", "Australia", {"5.9", "6.3", "6.4"}});
+        datos.push_back({"6.3", "Nueva Guinea", "Australia", {"6.2", "6.1", "6.4"}});
+        datos.push_back({"6.4", "Australia Occidental", "Australia", {"6.2", "6.3", "6.1"}});
 
         return datos;
     }
@@ -277,23 +277,7 @@ bool Tablero::inicializarJuego(const std::string& archivo, bool validarUnidadesI
     }
 
 
-vector<string> coloresUsados;
-vector<string>::iterator itC;
-for (itTerritorio = territorios.begin(); itTerritorio != territorios.end(); itTerritorio++) {
-    string color = (*itTerritorio).getColorOcupado();
-    bool yaEsta = false;
-    for (itC = coloresUsados.begin(); itC != coloresUsados.end(); itC++) {
-        if (*itC == color) { 
-            yaEsta = true; 
-            break; 
-        }
-    }
-    if (!yaEsta) {
-        coloresUsados.push_back(color);
-    }
-}
-
-    bool coloresValidos = validaColores(coloresUsados);
+    // Nota: ya no se exige que el color de cada territorio coincida con el de algun jugador.
     bool unidadesValidas = true;
     bool territoriosOcupados = usoTerritoriosOcupados();
 
@@ -302,7 +286,7 @@ for (itTerritorio = territorios.begin(); itTerritorio != territorios.end(); itTe
         unidadesValidas = validarUnidadesJugador();
     }
 
-    if (!coloresValidos || !unidadesValidas || !territoriosOcupados) {
+    if (!unidadesValidas || !territoriosOcupados) {
         territorios.clear();
         jugadores.clear();
         continentes.clear();
@@ -422,27 +406,6 @@ string Tablero::getEstadoResumen() const {
 
     return resumen;
 };
-bool Tablero::validaColores(vector<string> colores_usados) const{
-    vector<string>::iterator it14;
-
-    for (it14 = colores_usados.begin(); it14 != colores_usados.end(); it14++){
-        bool encontrado = false;
-
-        vector<Jugador>::const_iterator it15;
-
-        for (it15= jugadores.begin(); it15 != jugadores.end(); it15++){
-            if (it15->getColor() == *it14){
-                encontrado = true ;
-                break;
-            }
-        }
-
-        if (!encontrado){
-            return false;
-        }
-    }
-    return true;
-};
 bool Tablero::validarUnidadesJugador() const{
     int unidadEsperada;
 
@@ -512,53 +475,53 @@ void Tablero::inicializarMazo() {
     descarteCartas.clear();
 
     // Crear las 42 cartas
-    mazoCartas.push_back(Carta("Alaska", "Infanteria"));
-    mazoCartas.push_back(Carta("Alberta", "Caballeria"));
-    mazoCartas.push_back(Carta("AmericaCentral", "Artilleria"));
-    mazoCartas.push_back(Carta("EstadosUnidosOrientales", "Infanteria"));
-    mazoCartas.push_back(Carta("Groenlandia", "Caballeria"));
-    mazoCartas.push_back(Carta("TerritorioNoroccidental", "Artilleria"));
-    mazoCartas.push_back(Carta("Ontario", "Infanteria"));
-    mazoCartas.push_back(Carta("Quebec", "Caballeria"));
-    mazoCartas.push_back(Carta("EstadosUnidosOccidentales", "Artilleria"));
+    mazoCartas.push_back(Carta("1.1", "Infanteria"));
+    mazoCartas.push_back(Carta("1.2", "Caballeria"));
+    mazoCartas.push_back(Carta("1.3", "Artilleria"));
+    mazoCartas.push_back(Carta("1.4", "Infanteria"));
+    mazoCartas.push_back(Carta("1.5", "Caballeria"));
+    mazoCartas.push_back(Carta("1.6", "Artilleria"));
+    mazoCartas.push_back(Carta("1.7", "Infanteria"));
+    mazoCartas.push_back(Carta("1.8", "Caballeria"));
+    mazoCartas.push_back(Carta("1.9", "Artilleria"));
 
-    mazoCartas.push_back(Carta("Argentina", "Infanteria"));
-    mazoCartas.push_back(Carta("Brasil", "Caballeria"));
-    mazoCartas.push_back(Carta("Peru", "Artilleria"));
-    mazoCartas.push_back(Carta("Venezuela", "Infanteria"));
+    mazoCartas.push_back(Carta("2.1", "Infanteria"));
+    mazoCartas.push_back(Carta("2.2", "Caballeria"));
+    mazoCartas.push_back(Carta("2.3", "Artilleria"));
+    mazoCartas.push_back(Carta("2.4", "Infanteria"));
 
-    mazoCartas.push_back(Carta("GranBretana", "Caballeria"));
-    mazoCartas.push_back(Carta("Islandia", "Artilleria"));
-    mazoCartas.push_back(Carta("EuropaDelNorte", "Infanteria"));
-    mazoCartas.push_back(Carta("Escandinavia", "Caballeria"));
-    mazoCartas.push_back(Carta("EuropaDelSur", "Artilleria"));
-    mazoCartas.push_back(Carta("Ucrania", "Infanteria"));
-    mazoCartas.push_back(Carta("EuropaOccidental", "Caballeria"));
+    mazoCartas.push_back(Carta("3.1", "Caballeria"));
+    mazoCartas.push_back(Carta("3.2", "Artilleria"));
+    mazoCartas.push_back(Carta("3.3", "Infanteria"));
+    mazoCartas.push_back(Carta("3.4", "Caballeria"));
+    mazoCartas.push_back(Carta("3.5", "Artilleria"));
+    mazoCartas.push_back(Carta("3.6", "Infanteria"));
+    mazoCartas.push_back(Carta("3.7", "Caballeria"));
 
-    mazoCartas.push_back(Carta("Congo", "Artilleria"));
-    mazoCartas.push_back(Carta("AfricaOriental", "Infanteria"));
-    mazoCartas.push_back(Carta("Egipto", "Caballeria"));
-    mazoCartas.push_back(Carta("Madagascar", "Artilleria"));
-    mazoCartas.push_back(Carta("AfricaDelNorte", "Infanteria"));
-    mazoCartas.push_back(Carta("AfricaDelSur", "Caballeria"));
+    mazoCartas.push_back(Carta("4.1", "Artilleria"));
+    mazoCartas.push_back(Carta("4.2", "Infanteria"));
+    mazoCartas.push_back(Carta("4.3", "Caballeria"));
+    mazoCartas.push_back(Carta("4.4", "Artilleria"));
+    mazoCartas.push_back(Carta("4.5", "Infanteria"));
+    mazoCartas.push_back(Carta("4.6", "Caballeria"));
 
-    mazoCartas.push_back(Carta("Afganistan", "Artilleria"));
-    mazoCartas.push_back(Carta("China", "Infanteria"));
-    mazoCartas.push_back(Carta("India", "Caballeria"));
-    mazoCartas.push_back(Carta("Irkutsk", "Artilleria"));
-    mazoCartas.push_back(Carta("Japon", "Infanteria"));
-    mazoCartas.push_back(Carta("Kamchatka", "Caballeria"));
-    mazoCartas.push_back(Carta("MedioOriente", "Artilleria"));
-    mazoCartas.push_back(Carta("Mongolia", "Infanteria"));
-    mazoCartas.push_back(Carta("Siam", "Caballeria"));
-    mazoCartas.push_back(Carta("Siberia", "Artilleria"));
-    mazoCartas.push_back(Carta("Ural", "Infanteria"));
-    mazoCartas.push_back(Carta("Yakutsk", "Caballeria"));
+    mazoCartas.push_back(Carta("5.1", "Artilleria"));
+    mazoCartas.push_back(Carta("5.2", "Infanteria"));
+    mazoCartas.push_back(Carta("5.3", "Caballeria"));
+    mazoCartas.push_back(Carta("5.4", "Artilleria"));
+    mazoCartas.push_back(Carta("5.5", "Infanteria"));
+    mazoCartas.push_back(Carta("5.6", "Caballeria"));
+    mazoCartas.push_back(Carta("5.7", "Artilleria"));
+    mazoCartas.push_back(Carta("5.8", "Infanteria"));
+    mazoCartas.push_back(Carta("5.9", "Caballeria"));
+    mazoCartas.push_back(Carta("5.10", "Artilleria"));
+    mazoCartas.push_back(Carta("5.11", "Infanteria"));
+    mazoCartas.push_back(Carta("5.12", "Caballeria"));
 
-    mazoCartas.push_back(Carta("AustraliaOriental", "Artilleria"));
-    mazoCartas.push_back(Carta("Indonesia", "Infanteria"));
-    mazoCartas.push_back(Carta("NuevaGuinea", "Caballeria"));
-    mazoCartas.push_back(Carta("AustraliaOccidental", "Artilleria"));
+    mazoCartas.push_back(Carta("6.1", "Artilleria"));
+    mazoCartas.push_back(Carta("6.2", "Infanteria"));
+    mazoCartas.push_back(Carta("6.3", "Caballeria"));
+    mazoCartas.push_back(Carta("6.4", "Artilleria"));
 
     // 2 comodines
     mazoCartas.push_back(Carta());
