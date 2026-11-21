@@ -10,6 +10,7 @@
 #include "Turno.h"
 #include "Validaciones.h"
 #include "ArbolHuffman.h"
+#include "Grafo.h"
 using namespace std;
 
 Tablero tablero;
@@ -612,27 +613,167 @@ void guardar_comprimido(string nombre_archivo) {
     cout << "--------------------------------------------------\n" << endl;
 }
 
+
+// Componente 3
+static Grafo<string> construirGrafoConquista(const vector<Territorio>& territorios, const string& colorJugador) {
+    Grafo<string> grafo;
+    vector<Territorio>::const_iterator it;
+    for (it = territorios.begin(); it != territorios.end(); it++) {
+        grafo.insertarVertice(it->getCodigo());
+    }
+    for (it = territorios.begin(); it != territorios.end(); it++) {
+        vector<string> vecinos = it->getVecinos();
+        vector<string>::iterator itVecino;
+        for (itVecino = vecinos.begin(); itVecino != vecinos.end(); itVecino++) {
+            int costo = 0;
+            const Territorio* vecino = NULL;
+            vector<Territorio>::const_iterator itBusqueda;
+            for (itBusqueda = territorios.begin(); itBusqueda != territorios.end(); itBusqueda++) {
+                if (itBusqueda->getCodigo() == *itVecino) {
+                    vecino = &(*itBusqueda);
+                    break;
+                }
+            }
+            if (vecino != NULL) {
+                if (vecino->getColorOcupado() != colorJugador) {
+                    costo = vecino->getUnidades();
+                }
+                grafo.insertarArista(it->getCodigo(), *itVecino, costo);
+            }
+        }
+    }
+    return grafo;
+}
+
+// Codigos de los territorios que ocupa el jugador (en el orden del tablero).
+static vector<string> obtenerOrigenesJugador(const vector<Territorio>& territorios, const string& colorJugador) {
+    vector<string> origenes;
+    vector<Territorio>::const_iterator it;
+    for (it = territorios.begin(); it != territorios.end(); it++) {
+        if (it->getColorOcupado() == colorJugador) {
+            origenes.push_back(it->getCodigo());
+        }
+    }
+    return origenes;
+}
+
+// Verifica las condiciones comunes a los comandos del componente 3. 
+static Jugador* validarConsultaEstrategia(const string& nombre_jugador) {
+    if (!tablero.estaInicializado()) {
+        cout << "(Juego no inicializado) Esta partida no ha sido inicializada correctamente." << endl;
+        return NULL;
+    }
+    if (tablero.juegoFinalizado()) {
+        cout << "(Juego terminado) Esta partida ya tuvo un ganador." << endl;
+        return NULL;
+    }
+    Jugador* jugador = tablero.getJugadorPorNombre(nombre_jugador);
+    if (jugador == NULL) {
+        cout << "(Jugador no válido) El jugador " << nombre_jugador << " no forma parte de esta partida." << endl;
+        return NULL;
+    }
+    return jugador;
+}
+
+// Escribe los codigos de un camino separados por coma, desde la posicion "desde" hasta el final.
+static string unirCodigos(const vector<string>& camino, size_t desde, size_t hasta) {
+    string texto = "";
+    for (size_t i = desde; i < hasta; i++) {
+        if (i > desde) {
+            texto += ", ";
+        }
+        texto += camino[i];
+    }
+    return texto;
+}
+
 void costo_conquista (string nombre_jugador, string territorio){
-    cout << endl;
-    cout << "comandos aun no implementados !" << endl;
-    cout << endl;
-    cout << "Esta partida no ha sido inicializada correctamente." << endl;
-    cout << "Esta partida ya tuvo un ganador." << endl;
-    cout << "Para conquistar el territorio territorio , nombre_jugador debe atacar" << endl;
-    cout << "desde territorio_1 , pasando por los territorios territorio_2 , territorio_3 , ...," << endl;
-    cout << "territorio_m . Debe conquistar n unidades de ejército." << endl;
+    Jugador* jugador = validarConsultaEstrategia(nombre_jugador);
+    if (jugador == NULL) {
+        return;
+    }
+
+    Territorio* destino = tablero.getTerritorioCodigo(territorio);
+    if (destino == NULL) {
+        cout << "(Territorio no válido) El territorio " << territorio << " no existe." << endl;
+        return;
+    }
+    if (destino->getColorOcupado() == jugador->getColor()) {
+        cout << "(Territorio propio) El territorio " << territorio << " ya es controlado por "
+             << nombre_jugador << "." << endl;
+        return;
+    }
+
+    vector<Territorio> territorios = tablero.getTerritorios();
+    vector<string> origenes = obtenerOrigenesJugador(territorios, jugador->getColor());
+    if (origenes.empty()) {
+        cout << "(Jugador sin territorios) El jugador " << nombre_jugador
+             << " no controla ningún territorio." << endl;
+        return;
+    }
+
+    Grafo<string> grafo = construirGrafoConquista(territorios, jugador->getColor());
+    CaminosMinimos<string> caminos = grafo.caminosMinimos(origenes);
+    vector<string> camino = caminos.reconstruirCamino(territorio);
+
+    // camino = [territorio desde donde se ataca, ..., territorio solicitado]
+    cout << "(Comando correcto) Para conquistar el territorio " << territorio << ", "
+         << nombre_jugador << " debe atacar desde " << camino[0]
+         << ", pasando por los territorios " << unirCodigos(camino, 1, camino.size())
+         << ". Debe conquistar " << caminos.obtenerCosto(territorio)
+         << " unidades de ejército." << endl;
 }
 
 void conquista_mas_barata (string nombre_jugador){
-    cout << endl;
-    cout << "comandos aun no implementados !" << endl;
-    cout << endl;
-    cout << "Esta partida no ha sido inicializada correctamente." << endl;
-    cout << "Esta partida ya tuvo un ganador." << endl;
-    cout << "La conquista más barata es avanzar sobre el territorio territorio_1" << endl;
-    cout << "desde el territorio territorio_2 . Para conquistar el territorio territorio_1 , debe" << endl;
-    cout << "atacar desde territorio_2 , pasando por los territorios territorio_3 , territorio_4 ," << endl;
-    cout << "..., territorio_m . Debe conquistar n unidades de ejército." << endl;
+    Jugador* jugador = validarConsultaEstrategia(nombre_jugador);
+    if (jugador == NULL) {
+        return;
+    }
+
+    vector<Territorio> territorios = tablero.getTerritorios();
+    vector<string> origenes = obtenerOrigenesJugador(territorios, jugador->getColor());
+    if (origenes.empty()) {
+        cout << "(Jugador sin territorios) El jugador " << nombre_jugador
+             << " no controla ningún territorio." << endl;
+        return;
+    }
+
+    Grafo<string> grafo = construirGrafoConquista(territorios, jugador->getColor());
+    CaminosMinimos<string> caminos = grafo.caminosMinimos(origenes);
+
+    // Entre los territorios que no son del jugador se elige el de menor costo; si hay empate,
+    // el de menos saltos y, si persiste, el primero en el orden del tablero.
+    string mejor = "";
+    vector<Territorio>::iterator it;
+    for (it = territorios.begin(); it != territorios.end(); it++) {
+        if (it->getColorOcupado() == jugador->getColor() || !caminos.esAlcanzable(it->getCodigo())) {
+            continue;
+        }
+        if (mejor == "") {
+            mejor = it->getCodigo();
+        } else if (caminos.obtenerCosto(it->getCodigo()) < caminos.obtenerCosto(mejor)) {
+            mejor = it->getCodigo();
+        } else if (caminos.obtenerCosto(it->getCodigo()) == caminos.obtenerCosto(mejor) &&
+                   caminos.obtenerSaltos(it->getCodigo()) < caminos.obtenerSaltos(mejor)) {
+            mejor = it->getCodigo();
+        }
+    }
+
+    if (mejor == "") {
+        cout << "(Sin territorios por conquistar) El jugador " << nombre_jugador
+             << " ya controla todos los territorios." << endl;
+        return;
+    }
+
+    // camino = [territorio desde donde se ataca, ..., territorio a conquistar]
+    vector<string> camino = caminos.reconstruirCamino(mejor);
+    cout << "(Comando correcto) La conquista más barata es avanzar sobre el territorio " << mejor
+         << " desde el territorio " << camino[0] << ". Para conquistar el territorio " << mejor
+         << ", debe atacar desde " << camino[0];
+    if (camino.size() > 2) {
+        cout << ", pasando por los territorios " << unirCodigos(camino, 1, camino.size() - 1);
+    }
+    cout << ". Debe conquistar " << caminos.obtenerCosto(mejor) << " unidades de ejército." << endl;
 }
 
 void ayuda (){
