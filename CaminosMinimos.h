@@ -6,7 +6,7 @@
 #include <vector>
 
 // TAD CaminosMinimos: resultado de buscar, desde un conjunto de vertices de origen,
-
+template <class T>
 class CaminosMinimos {
 protected:
     std::map<T, int> costos;
